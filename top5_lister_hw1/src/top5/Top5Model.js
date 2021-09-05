@@ -117,6 +117,7 @@ export default class Top5Model {
                 this.currentList = list;
                 this.view.update(this.currentList);
                 this.view.highlightList(i);
+                this.view.updateStatusBarText(this.currentList.getName());
                 found = true;
             }
             i++;

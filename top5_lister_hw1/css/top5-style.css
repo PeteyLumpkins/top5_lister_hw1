@@ -65,6 +65,15 @@ body {
 
 #top5-statusbar {
   position: absolute;
+
+  /* TODO changed text to be center and background color to a salmon peach color */
+  display: flex;
+  font-size: 25px;
+  justify-content: center;
+  align-items: center;
+  /* Color is pretty close to example. Color code -> (248, 149, 110) */
+  background-color:rgb(248, 149, 110);
+
   left: 0%;
   top: 90%;
   width: 100%;
