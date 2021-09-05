@@ -83,19 +83,11 @@ export default class Top5Model {
 
     // TODO highlighting element that we are hovering over
     selectHoverList(id) {
-        let i = 0;
-        while (i < this.top5Lists.length && this.top5Lists[i].id != id ) {
-            i++;
-        }
         this.view.mouseOverHighlight(id);
     }
 
     // TODO unhighlighting element when we move out of it
     unselectHoverList(id) {
-        let i = 0;
-        while (i < this.top5Lists.length && this.top5Lists[i].id != id ) {
-            i++;
-        }
         this.view.mouseOverUnHighlight(id);
     }
 
