@@ -9,12 +9,16 @@ import Top5Controller from './Top5Controller.js';
  * app with all needed initialization.
  * 
  * @author McKilla Gorilla
- * @author ?
+ * @author PeteyLumpkins
  */
 
 export class Top5ListerApp {
     constructor() {
         // FIRST MAKE THE APP COMPONENTS
+
+        // FIXME REMEMBER TO GET RID OF THIS NUMBNUTS
+        localStorage.clear();
+
         this.model = new Top5Model();
         this.view = new Top5View();
         this.controller = new Top5Controller();

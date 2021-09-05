@@ -86,6 +86,18 @@ export default class Top5View {
         button.classList.remove("disabled");
     }
 
+    // TODO List mouse over highlighting
+    mouseOverHighlight(listId) {
+        let listCard = document.getElementById("top5-list-" + listId);
+        listCard.classList.add("hovering-list-card");
+    }
+
+    // TODO List mouse over unhighlight
+    mouseOverUnHighlight(listId) {
+        let listCard = document.getElementById("top5-list-" + listId);
+        listCard.classList.remove("hovering-list-card");
+    }
+
     highlightList(listId) {
         // HIGHLIGHT THE LIST
         let listCard = document.getElementById("top5-list-" + listId);

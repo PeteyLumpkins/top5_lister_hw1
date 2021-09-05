@@ -48,6 +48,7 @@ export default class Top5Controller {
                     textInput.ondblclick = (event) => {
                         this.ignoreParentClick(event);
                     }
+
                     textInput.onkeydown = (event) => {
                         if (event.key === 'Enter') {
                             this.model.addChangeItemTransaction(i-1, event.target.value);
@@ -69,6 +70,17 @@ export default class Top5Controller {
             // GET THE SELECTED LIST
             this.model.loadList(id);
         }
+
+        // TODO FOR HOVERING OVER THE LISTS
+        document.getElementById("top5-list-" + id).addEventListener("mouseover", (event) => {
+            this.model.selectHoverList(id);
+        });
+
+        // TODO  FOR UNHOVERING OVER THE LISTS
+        document.getElementById("top5-list-" + id).addEventListener("mouseout", (event) => {
+            this.model.unselectHoverList(id);
+        });
+
         // FOR DELETING THE LIST
         document.getElementById("delete-list-" + id).onmousedown = (event) => {
             this.ignoreParentClick(event);
