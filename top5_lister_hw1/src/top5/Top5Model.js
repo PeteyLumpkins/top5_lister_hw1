@@ -106,6 +106,7 @@ export default class Top5Model {
         }
     }
 
+    // FIXME There is something wrong with the highlighting going on with selected list
     loadList(id) {
         let list = null;
         let found = false;
@@ -116,7 +117,7 @@ export default class Top5Model {
                 // THIS IS THE LIST TO LOAD
                 this.currentList = list;
                 this.view.update(this.currentList);
-                this.view.highlightList(i);
+                this.view.highlightList(id); // FIXME I think this might be the bug
                 this.view.updateStatusBarText(this.currentList.getName());
                 found = true;
             }
