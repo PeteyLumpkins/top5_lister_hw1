@@ -69,6 +69,7 @@ body {
   /* TODO changed text to be center and background color to a salmon peach color */
   display: flex;
   font-size: 25px;
+  font-style: var(--my-font-family);
   justify-content: center;
   align-items: center;
   /* Color is pretty close to example. Color code -> (248, 149, 110) */

@@ -4,7 +4,7 @@
  * This file provides responses for all user interface interactions.
  * 
  * @author McKilla Gorilla
- * @author ?
+ * @author PeteyLumpkins
  */
 export default class Top5Controller {
     constructor() {
@@ -37,6 +37,9 @@ export default class Top5Controller {
                     // CLEAR THE TEXT
                     item.innerHTML = "";
 
+                    // TODO SET DRAGGABLE TO FALSE
+                    item.draggable = false;
+
                     // ADD A TEXT FIELD
                     let textInput = document.createElement("input");
                     textInput.setAttribute("type", "text");
@@ -47,19 +50,45 @@ export default class Top5Controller {
 
                     textInput.ondblclick = (event) => {
                         this.ignoreParentClick(event);
+                        item.draggable = true;
                     }
 
                     textInput.onkeydown = (event) => {
                         if (event.key === 'Enter') {
                             this.model.addChangeItemTransaction(i-1, event.target.value);
                         }
+                        item.draggable = true;
                     }
                     textInput.onblur = (event) => {
                         this.model.restoreList();
+                        item.draggable = true;
                     }
+
                 }
             }
+
+            // TODO FOR DRAGGING ITEMS
+            item.ondragstart = (event) => {
+
+                if (this.model.hasCurrentList()) {
+                    event.dataTransfer.setData("id", event.target.id);
+
+                    // Creates a dummy element with id = "dummy"
+                    let dummy = document.createElement("div");
+                    dummy.id = "item-dummy";
+
+                    // Inserts dummy element where original element we are dragging was
+                    let parent = document.getElementById("edit-items");
+                    parent.insertBefore(dummy, event.target.nextSibling);
+                }
+            }
+
+            // TODO set items as draggable
+            item.draggable = true;
         }
+
+        // TODO Sets up drop box handlers here too
+        this.registerDropBoxHandlers();
     }
 
     registerListSelectHandlers(id) {
@@ -93,6 +122,53 @@ export default class Top5Controller {
             deleteSpan.appendChild(document.createTextNode(listName));
             modal.classList.add("is-visible");
         }
+    }
+
+    // TODO register the container, "edit-items" as a dropbox
+    registerDropBoxHandlers() {
+
+        // TODO handles dropping of list item
+        document.getElementById("edit-items").ondrop = (event) => {
+            event.preventDefault();
+
+            let dummy = document.getElementById("item-dummy");
+
+            // Location we drop at must be within the parent element
+            if (event.target.parentNode.id === "edit-items") {
+                let id = event.dataTransfer.getData("id");
+                let hoverId = event.target.id;
+                
+                // Getting elements
+                let parent = document.getElementById("edit-items");
+                let prev = document.getElementById(hoverId);
+
+                // Getting dimensions of items
+                let dummyRect = dummy.getBoundingClientRect();
+                let prevRect = prev.getBoundingClientRect();
+
+                let curr = document.getElementById(id);
+
+                let prevY = (prevRect.bottom - prevRect.top) / 2 + prevRect.top;
+                let dummyY = (dummyRect.bottom - dummyRect.top) / 2 + dummyRect.top;
+
+                if (prevY >= dummyY) {
+                    parent.insertBefore(curr, prev.nextSibling);
+                } else {
+                    parent.insertBefore(curr, prev);
+                }
+            }
+            // Dummy is created whether drop is in valid place or not, so need to 
+            // remove regardless of condition
+            dummy.parentNode.removeChild(dummy);
+
+            // TODO update the model!!!
+        }
+
+        // TODO Prevents drag action from being stopped I think
+        document.getElementById("edit-items").ondragover = (event) => {
+            event.preventDefault();
+        }
+
     }
 
     ignoreParentClick(event) {
