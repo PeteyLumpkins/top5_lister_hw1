@@ -58,12 +58,17 @@ export default class Top5View {
 
         // SETUP THE HANDLER FOR WHEN SOMEONE MOUSE CLICKS ON OUR LIST
         this.controller.registerListSelectHandlers(newList.id);
+
     }
 
     update(list) {
         for (let i = 0; i < 5; i++) {
             let item = document.getElementById("item-" + (i+1));
             item.innerHTML = "";
+
+            // We initially set list items to draggable
+            this.enableDrag("item-" + (i + 1));
+
             item.appendChild(document.createTextNode(list.getItemAt(i)));
         }
     }
@@ -84,6 +89,18 @@ export default class Top5View {
     enableButton(id) {
         let button = document.getElementById(id);
         button.classList.remove("disabled");
+    }
+
+    // TODO enable drag
+    enableDrag(id) {
+        let item = document.getElementById(id);
+        item.draggable = true;
+    }
+
+    // TODO disable drag
+    disableDrag(id) {
+        let item = document.getElementById(id);
+        item.draggable = false;
     }
 
     // TODO List mouse over highlighting

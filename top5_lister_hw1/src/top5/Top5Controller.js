@@ -70,21 +70,18 @@ export default class Top5Controller {
             // TODO FOR DRAGGING ITEMS
             item.ondragstart = (event) => {
 
-                if (this.model.hasCurrentList()) {
-                    event.dataTransfer.setData("id", event.target.id);
+                event.dataTransfer.setData("id", event.target.id);
 
-                    // Creates a dummy element with id = "dummy"
-                    let dummy = document.createElement("div");
-                    dummy.id = "item-dummy";
+                // Creates a dummy element with id = "dummy"
+                let dummy = document.createElement("div");
+                dummy.id = "item-dummy";
 
-                    // Inserts dummy element where original element we are dragging was
-                    let parent = document.getElementById("edit-items");
-                    parent.insertBefore(dummy, event.target.nextSibling);
-                }
+                // Inserts dummy element where original element we are dragging was
+                let parent = document.getElementById("edit-items");
+                parent.insertBefore(dummy, event.target.nextSibling);
+                
             }
 
-            // TODO set items as draggable
-            item.draggable = true;
         }
 
         // TODO Sets up drop box handlers here too
@@ -156,10 +153,10 @@ export default class Top5Controller {
                 } else {
                     parent.insertBefore(curr, prev);
                 }
+                dummy.parentNode.removeChild(dummy);
             }
             // Dummy is created whether drop is in valid place or not, so need to 
             // remove regardless of condition
-            dummy.parentNode.removeChild(dummy);
 
             // TODO update the model!!!
         }

@@ -109,8 +109,10 @@ export default class Top5Model {
                 // THIS IS THE LIST TO LOAD
                 this.currentList = list;
                 this.view.update(this.currentList);
-                this.view.highlightList(id); // FIXME I think this might be the bug
+                this.view.highlightList(id); // FIXME bug -> was "i" should have been "id"
+
                 this.view.updateStatusBarText(this.currentList.getName());
+
                 found = true;
             }
             i++;
