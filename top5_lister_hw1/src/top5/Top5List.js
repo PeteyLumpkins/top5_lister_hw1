@@ -19,6 +19,15 @@ export default class Top5List {
         this.name = initName;
     }
 
+    getItemIndex(item) {
+        for (let i = 0; i < this.items.length; i++) {
+            if (this.items[i] === item) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     getItemAt(index) {
         return this.items[index];
     }

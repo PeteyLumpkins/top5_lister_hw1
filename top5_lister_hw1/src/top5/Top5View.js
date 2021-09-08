@@ -5,7 +5,7 @@
  * for loading data into our controls and building other UI controls.
  * 
  * @author McKilla Gorilla
- * @author ?
+ * @author PeteyLumpkins
  */
 export default class Top5View {
     // REFRESHES ALL THE LISTS IN THE LEFT SIDEBAR
@@ -94,8 +94,6 @@ export default class Top5View {
         let button = document.getElementById(id);
         button.classList.remove("disabled");
     }
-
-    
 
     // TODO enable drag
     enableDrag(id) {

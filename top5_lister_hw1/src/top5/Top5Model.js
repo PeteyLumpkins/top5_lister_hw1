@@ -1,6 +1,7 @@
 import jsTPS from "../common/jsTPS.js"
 import Top5List from "./Top5List.js";
 import ChangeItem_Transaction from "./transactions/ChangeItem_Transaction.js"
+import MoveItem_Transaction from "./transactions/MoveItem_Transaction.js"
 
 /**
  * Top5Model.js
@@ -15,7 +16,7 @@ import ChangeItem_Transaction from "./transactions/ChangeItem_Transaction.js"
  * inside the view of the page.
  * 
  * @author McKilla Gorilla
- * @author ?
+ * @author PeteyLumpkins
  */
 export default class Top5Model {
     constructor() {
@@ -34,6 +35,10 @@ export default class Top5Model {
 
     getList(index) {
         return this.top5Lists[index];
+    }
+
+    getCurrentList() {
+        return this.currentList;
     }
 
     getListIndex(id) {
@@ -159,6 +164,16 @@ export default class Top5Model {
         let oldText = this.currentList.items[id];
         let transaction = new ChangeItem_Transaction(this, id, oldText, newText);
         this.tps.addTransaction(transaction);
+    }
+
+    addMoveItemTransaction = (oldPosition, newPosition) => {
+        let transaction = new MoveItem_Transaction(this, oldPosition, newPosition);
+        this.tps.addTransaction(transaction);
+    }
+
+    // TODO move list items... ???
+    moveItem(oldIndex, newIndex) {
+        this.currentList.moveItem(oldIndex, newIndex)
     }
 
     changeItem(id, text) {

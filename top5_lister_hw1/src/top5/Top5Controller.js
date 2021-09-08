@@ -193,6 +193,10 @@ export default class Top5Controller {
                     parent.insertBefore(curr, prev);
                 }
                 dummy.parentNode.removeChild(dummy);
+
+                this.model.moveItem(this.model.getCurrentList().getItemIndex(curr.textContent), 
+                                    this.model.getCurrentList().getItemIndex(prev.textContent));
+                this.model.saveLists();
             }
             // Dummy is created whether drop is in valid place or not, so need to 
             // remove regardless of condition
