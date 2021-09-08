@@ -89,6 +89,7 @@ export default class Top5Controller {
     }
 
     registerListSelectHandlers(id) {
+
         // FOR SELECTING THE LIST
         document.getElementById("top5-list-" + id).onmousedown = (event) => {
             this.model.unselectAll();
@@ -97,15 +98,53 @@ export default class Top5Controller {
             this.model.loadList(id);
         }
 
+        // TODO FOR CHANGING LIST NAME
+        document.getElementById("list-card-text-" + id).ondblclick = (event) => {
+            
+            let textInput = document.createElement("input");
+            textInput.type = "text";
+            textInput.classList = ["title-input"];
+
+            textInput.id = "list-text-input-" + id;
+            textInput.value = this.model.getList(id).getName();
+
+            document.getElementById("list-card-text-" + id).innerHTML = "";
+            document.getElementById("list-card-text-" + id).appendChild(textInput);
+
+            textInput.ondblclick = (ev) => {
+                this.ignoreParentClick(ev);
+            }
+
+            textInput.onkeydown = (ev) => {
+                if (ev.key === "Enter") {
+                    // Saves the new name of the list to our model
+                    this.model.getList(this.model.getListIndex(id)).setName(ev.target.value);
+                    this.model.saveLists();
+
+                    // Removes text input element from the view
+                    textInput.parentNode.removeChild(textInput);
+
+                    // Updates the view with the new name
+                    document.getElementById("list-card-text-" + id).append(ev.target.value)
+                    
+                }
+            }
+
+            textInput.onblur = (ev) => {
+                this.model.restoreList();
+            }
+
+        }
+
         // TODO FOR HOVERING OVER THE LISTS
-        document.getElementById("top5-list-" + id).addEventListener("mouseover", (event) => {
+        document.getElementById("top5-list-" + id).onmouseover = (event) => {
             this.model.selectHoverList(id);
-        });
+        }
 
         // TODO  FOR UNHOVERING OVER THE LISTS
-        document.getElementById("top5-list-" + id).addEventListener("mouseout", (event) => {
+        document.getElementById("top5-list-" + id).onmouseout = (event) => {
             this.model.unselectHoverList(id);
-        });
+        }
 
         // FOR DELETING THE LIST
         document.getElementById("delete-list-" + id).onmousedown = (event) => {

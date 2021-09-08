@@ -197,6 +197,11 @@ input {
   font-size:20pt;
 }
 
+/* TODO fixes the size of the text input field for changing list name */
+.title-input {
+  width: 70%;
+}
+
 .top5-item {
   text-align: left;
   width:95%;

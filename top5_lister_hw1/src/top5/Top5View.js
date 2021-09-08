@@ -61,6 +61,10 @@ export default class Top5View {
 
     }
 
+    /**
+     * 
+     * @param {*} list 
+     */
     update(list) {
         for (let i = 0; i < 5; i++) {
             let item = document.getElementById("item-" + (i+1));
@@ -90,6 +94,8 @@ export default class Top5View {
         let button = document.getElementById(id);
         button.classList.remove("disabled");
     }
+
+    
 
     // TODO enable drag
     enableDrag(id) {
