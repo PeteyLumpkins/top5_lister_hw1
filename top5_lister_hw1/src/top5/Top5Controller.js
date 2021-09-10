@@ -194,9 +194,14 @@ export default class Top5Controller {
                 }
                 dummy.parentNode.removeChild(dummy);
 
-                this.model.moveItem(this.model.getCurrentList().getItemIndex(curr.textContent), 
-                                    this.model.getCurrentList().getItemIndex(prev.textContent));
-                this.model.saveLists();
+                this.model.addMoveItemTransaction(
+                    this.model.getCurrentList().getItemIndex(curr.textContent), 
+                    this.model.getCurrentList().getItemIndex(prev.textContent)
+                );
+                this.model.moveItem(
+                    this.model.getCurrentList().getItemIndex(curr.textContent),
+                    this.model.getCurrentList().getItemIndex(prev.textContent)
+                );
             }
             // Dummy is created whether drop is in valid place or not, so need to 
             // remove regardless of condition

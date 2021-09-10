@@ -72,8 +72,16 @@ export default class Top5View {
 
             // We initially set list items to draggable
             this.enableDrag("item-" + (i + 1));
-
+            
             item.appendChild(document.createTextNode(list.getItemAt(i)));
+        }
+    }
+
+    realignItemsList() {
+        let edit_items = document.getElementById("edit-items");
+
+        for (let i = 0; i < 5; i++) {
+            edit_items.append(document.getElementById("item-" + (i + 1)));
         }
     }
 

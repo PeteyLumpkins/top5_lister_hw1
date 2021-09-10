@@ -171,9 +171,10 @@ export default class Top5Model {
         this.tps.addTransaction(transaction);
     }
 
-    // TODO move list items... ???
+    // TODO move list items... I think...???
     moveItem(oldIndex, newIndex) {
-        this.currentList.moveItem(oldIndex, newIndex)
+        this.currentList.moveItem(oldIndex, newIndex);
+        this.saveLists();
     }
 
     changeItem(id, text) {
@@ -187,6 +188,8 @@ export default class Top5Model {
         if (this.tps.hasTransactionToUndo()) {
             this.tps.undoTransaction();
             this.view.updateToolbarButtons(this);
+            this.view.realignItemsList();
+            this.view.update(this.currentList);
         }
     }
 }
