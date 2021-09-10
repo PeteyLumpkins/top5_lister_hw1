@@ -73,7 +73,7 @@ body {
   justify-content: center;
   align-items: center;
   /* Color is pretty close to example. Color code -> (248, 149, 110) */
-  background-color:rgb(248, 149, 110);
+  background-color: #ffa07a;
 
   left: 0%;
   top: 90%;

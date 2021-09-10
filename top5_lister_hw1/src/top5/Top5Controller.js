@@ -23,6 +23,7 @@ export default class Top5Controller {
             this.model.loadList(newList.id);
             this.model.saveLists();
         }
+        
         document.getElementById("undo-button").onmousedown = (event) => {
             this.model.undo();
         }

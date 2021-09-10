@@ -133,7 +133,7 @@ export default class Top5View {
         listCard.classList.add("selected-list-card");
     }
 
-    // FIXME appending will just cause titls to stack up - need to clear, then add
+    // FIXME appending will just cause titles to stack up - need to clear, then add
     updateStatusBarText(listName) {
         let statusBar = document.getElementById("top5-statusbar");
         // First we clear the status bar
@@ -157,7 +157,7 @@ export default class Top5View {
             this.enableButton("undo-button");
         }
         
-        if (!tps.hasTransactionToUndo()) {
+        if (!tps.hasTransactionToRedo()) {
             this.disableButton("redo-button");
         } else {
             this.enableButton("redo-button");

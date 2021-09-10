@@ -67,12 +67,16 @@ export default class Top5Model {
         return newList;
     }
 
+    // TODO modified this a little bit, might not work right...
     sortLists() {
         this.top5Lists.sort((listA, listB) => {
-            if (listA.getName() < listB.getName()) {
+            let aName = listA.getName().replace(" ", "").toLowerCase(); 
+            let bName = listB.getName().replace(" ", "").toLowerCase();
+
+            if (aName < bName) {
                 return -1;
             }
-            else if (listA.getName === listB.getName()) {
+            else if (aName === bName) {
                 return 0;
             }
             else {
@@ -164,11 +168,17 @@ export default class Top5Model {
         let oldText = this.currentList.items[id];
         let transaction = new ChangeItem_Transaction(this, id, oldText, newText);
         this.tps.addTransaction(transaction);
+
+        // Update toolbar after adding a new transaction
+        this.view.updateToolbarButtons(this);
     }
 
     addMoveItemTransaction = (oldPosition, newPosition) => {
         let transaction = new MoveItem_Transaction(this, oldPosition, newPosition);
         this.tps.addTransaction(transaction);
+
+        // Update the toolbar items after adding a transaction
+        this.view.updateToolbarButtons(this);
     }
 
     // TODO moves the list items of the current list and updates the view
