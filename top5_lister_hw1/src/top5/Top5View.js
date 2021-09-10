@@ -66,12 +66,16 @@ export default class Top5View {
      * @param {*} list 
      */
     update(list) {
-        for (let i = 0; i < 5; i++) {
-            let item = document.getElementById("item-" + (i+1));
-            item.innerHTML = "";
+        let items = document.getElementById("edit-items").children;
 
+        for (let i = 0; i < items.length; i++) {
+            // let item = document.getElementById("item-" + (i+1));
+            let item = items[i];
+
+            item.innerHTML = "";
+            this.enableDrag(item.id);
             // We initially set list items to draggable
-            this.enableDrag("item-" + (i + 1));
+            // this.enableDrag("item-" + (i + 1));
             
             item.appendChild(document.createTextNode(list.getItemAt(i)));
         }
@@ -90,6 +94,9 @@ export default class Top5View {
         for (let i = 0; i < 5; i++) {
             let item = document.getElementById("item-" + (i+1));
             item.innerHTML = "";
+
+            // When there's no items, they shouldn't be draggable
+            item.draggable = false;
         }
     }
 

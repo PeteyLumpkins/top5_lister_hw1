@@ -174,6 +174,7 @@ export default class Top5Model {
     // TODO move list items... I think...???
     moveItem(oldIndex, newIndex) {
         this.currentList.moveItem(oldIndex, newIndex);
+        this.view.update(this.currentList);
         this.saveLists();
     }
 

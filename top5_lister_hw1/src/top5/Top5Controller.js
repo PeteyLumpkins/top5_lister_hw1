@@ -70,15 +70,16 @@ export default class Top5Controller {
             // TODO FOR DRAGGING ITEMS
             item.ondragstart = (event) => {
 
-                event.dataTransfer.setData("id", event.target.id);
+                // Transfer the text content of the item we're dragging
+                event.dataTransfer.setData("oldIndex", this.model.getCurrentList().getItemIndex(event.target.textContent));
 
                 // Creates a dummy element with id = "dummy"
-                let dummy = document.createElement("div");
-                dummy.id = "item-dummy";
+                // let dummy = document.createElement("div");
+                // dummy.id = "item-dummy";
 
-                // Inserts dummy element where original element we are dragging was
-                let parent = document.getElementById("edit-items");
-                parent.insertBefore(dummy, event.target.nextSibling);
+                // // Inserts dummy element where original element we are dragging was
+                // let parent = document.getElementById("edit-items");
+                // parent.insertBefore(dummy, event.target.nextSibling);
                 
             }
 
@@ -167,46 +168,13 @@ export default class Top5Controller {
         document.getElementById("edit-items").ondrop = (event) => {
             event.preventDefault();
 
-            let dummy = document.getElementById("item-dummy");
-
-            // Location we drop at must be within the parent element
             if (event.target.parentNode.id === "edit-items") {
-                let id = event.dataTransfer.getData("id");
-                let hoverId = event.target.id;
-                
-                // Getting elements
-                let parent = document.getElementById("edit-items");
-                let prev = document.getElementById(hoverId);
+                let oldIndex = event.dataTransfer.getData("oldIndex");
+                let newIndex = this.model.getCurrentList().getItemIndex(event.target.textContent);
 
-                // Getting dimensions of items
-                let dummyRect = dummy.getBoundingClientRect();
-                let prevRect = prev.getBoundingClientRect();
-
-                let curr = document.getElementById(id);
-
-                let prevY = (prevRect.bottom - prevRect.top) / 2 + prevRect.top;
-                let dummyY = (dummyRect.bottom - dummyRect.top) / 2 + dummyRect.top;
-
-                if (prevY >= dummyY) {
-                    parent.insertBefore(curr, prev.nextSibling);
-                } else {
-                    parent.insertBefore(curr, prev);
-                }
-                dummy.parentNode.removeChild(dummy);
-
-                this.model.addMoveItemTransaction(
-                    this.model.getCurrentList().getItemIndex(curr.textContent), 
-                    this.model.getCurrentList().getItemIndex(prev.textContent)
-                );
-                this.model.moveItem(
-                    this.model.getCurrentList().getItemIndex(curr.textContent),
-                    this.model.getCurrentList().getItemIndex(prev.textContent)
-                );
+                // Adding transaction also performs the transaction
+                this.model.addMoveItemTransaction(oldIndex, newIndex);
             }
-            // Dummy is created whether drop is in valid place or not, so need to 
-            // remove regardless of condition
-
-            // TODO update the model!!!
         }
 
         // TODO Prevents drag action from being stopped I think
