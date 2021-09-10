@@ -27,6 +27,11 @@ export default class Top5Controller {
             this.model.undo();
         }
 
+        // SETUP REDO BUTTON
+        document.getElementById("redo-button").onmousedown = (event) => {
+            this.model.redo();
+        }
+
         // SETUP THE ITEM HANDLERS
         for (let i = 1; i <= 5; i++) {
             let item = document.getElementById("item-" + i);
@@ -72,14 +77,6 @@ export default class Top5Controller {
 
                 // Transfer the text content of the item we're dragging
                 event.dataTransfer.setData("oldIndex", this.model.getCurrentList().getItemIndex(event.target.textContent));
-
-                // Creates a dummy element with id = "dummy"
-                // let dummy = document.createElement("div");
-                // dummy.id = "item-dummy";
-
-                // // Inserts dummy element where original element we are dragging was
-                // let parent = document.getElementById("edit-items");
-                // parent.insertBefore(dummy, event.target.nextSibling);
                 
             }
 

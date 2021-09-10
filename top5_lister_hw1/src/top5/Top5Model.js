@@ -171,16 +171,22 @@ export default class Top5Model {
         this.tps.addTransaction(transaction);
     }
 
-    // TODO move list items... I think...???
+    // TODO moves the list items of the current list and updates the view
     moveItem(oldIndex, newIndex) {
         this.currentList.moveItem(oldIndex, newIndex);
+
         this.view.update(this.currentList);
+        this.view.updateToolbarButtons(this);
+
         this.saveLists();
     }
 
     changeItem(id, text) {
         this.currentList.items[id] = text;
+
         this.view.update(this.currentList);
+        this.view.updateToolbarButtons(this);
+
         this.saveLists();
     }
 
@@ -189,8 +195,13 @@ export default class Top5Model {
         if (this.tps.hasTransactionToUndo()) {
             this.tps.undoTransaction();
             this.view.updateToolbarButtons(this);
-            this.view.realignItemsList();
-            this.view.update(this.currentList);
+        }
+    }
+
+    redo() {
+        if (this.tps.hasTransactionToRedo()) {
+            this.tps.doTransaction();
+            this.view.updateToolbarButtons(this);
         }
     }
 }

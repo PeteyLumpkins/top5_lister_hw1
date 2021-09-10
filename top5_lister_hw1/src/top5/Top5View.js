@@ -81,14 +81,6 @@ export default class Top5View {
         }
     }
 
-    realignItemsList() {
-        let edit_items = document.getElementById("edit-items");
-
-        for (let i = 0; i < 5; i++) {
-            edit_items.append(document.getElementById("item-" + (i + 1)));
-        }
-    }
-
     clearWorkspace() {
         // REMOVE THE ITEMS
         for (let i = 0; i < 5; i++) {
@@ -161,9 +153,14 @@ export default class Top5View {
         let tps = model.tps;
         if (!tps.hasTransactionToUndo()) {
             this.disableButton("undo-button");
-        }
-        else {
+        } else {
             this.enableButton("undo-button");
-        }   
+        }
+        
+        if (!tps.hasTransactionToUndo()) {
+            this.disableButton("redo-button");
+        } else {
+            this.enableButton("redo-button");
+        }
     }
 }
