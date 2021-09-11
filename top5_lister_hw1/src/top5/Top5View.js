@@ -143,7 +143,7 @@ export default class Top5View {
     }
 
     unhighlightList(listId) {
-        // HIGHLIGHT THE LIST
+        // UNHIGHLIGHT THE LIST
         let listCard = document.getElementById("top5-list-" + listId);
         listCard.classList.add("unselected-list-card");
         listCard.classList.remove("selected-list-card");
@@ -151,16 +151,26 @@ export default class Top5View {
 
     updateToolbarButtons(model) {
         let tps = model.tps;
+
+        // Enable/Disable undo button
         if (!tps.hasTransactionToUndo()) {
             this.disableButton("undo-button");
         } else {
             this.enableButton("undo-button");
         }
         
+        // Enable/Disable redo button
         if (!tps.hasTransactionToRedo()) {
             this.disableButton("redo-button");
         } else {
             this.enableButton("redo-button");
+        }
+
+        // Enable/Disable close list button
+        if (model.hasCurrentList()) {
+            this.enableButton("close-button");
+        } else {
+            this.disableButton("close-button");
         }
     }
 }

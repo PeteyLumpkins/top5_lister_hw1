@@ -51,6 +51,17 @@ export default class Top5Model {
         return -1;
     }
 
+    closeList() {
+        // Set current list to null, unselected highlighted lists
+        this.currentList = null;
+        this.unselectAll();
+
+        // Clear workspace and update toolbars, need to disable
+        // close button after clearing workspace
+        this.view.clearWorkspace();
+        this.view.updateToolbarButtons(this);
+    }
+
     setView(initView) {
         this.view = initView;
     }

@@ -23,7 +23,7 @@ export default class Top5Controller {
             this.model.loadList(newList.id);
             this.model.saveLists();
         }
-        
+
         document.getElementById("undo-button").onmousedown = (event) => {
             this.model.undo();
         }
@@ -31,6 +31,10 @@ export default class Top5Controller {
         // SETUP REDO BUTTON
         document.getElementById("redo-button").onmousedown = (event) => {
             this.model.redo();
+        }
+
+        document.getElementById("close-button").onmousedown = (event) => {
+            this.model.closeList();
         }
 
         // SETUP THE ITEM HANDLERS
