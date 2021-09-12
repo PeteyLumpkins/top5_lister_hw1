@@ -19,9 +19,11 @@ export default class Top5Controller {
     initHandlers() {
         // SETUP THE TOOLBAR BUTTON HANDLERS
         document.getElementById("add-list-button").onmousedown = (event) => {
-            let newList = this.model.addNewList("Untitled", ["?","?","?","?","?"]);            
-            this.model.loadList(newList.id);
-            this.model.saveLists();
+            if (!this.model.hasCurrentList()) {
+                let newList = this.model.addNewList("Untitled", ["?","?","?","?","?"]);            
+                this.model.loadList(newList.id);
+                this.model.saveLists();
+            }
         }
 
         document.getElementById("undo-button").onmousedown = (event) => {
@@ -103,48 +105,15 @@ export default class Top5Controller {
 
         // TODO FOR CHANGING LIST NAME
         document.getElementById("list-card-text-" + id).ondblclick = (event) => {
-            
-            let textInput = document.createElement("input");
-            textInput.type = "text";
-            textInput.classList = ["title-input"];
-
-            textInput.id = "list-text-input-" + id;
-            textInput.value = this.model.getList(id).getName();
-
-            document.getElementById("list-card-text-" + id).innerHTML = "";
-            document.getElementById("list-card-text-" + id).appendChild(textInput);
-
-            textInput.ondblclick = (ev) => {
-                this.ignoreParentClick(ev);
-            }
-
-            textInput.onkeydown = (ev) => {
-                if (ev.key === "Enter") {
-                    // Saves the new name of the list to our model
-                    this.model.getList(this.model.getListIndex(id)).setName(ev.target.value);
-                    this.model.saveLists();
-
-                    // Removes text input element from the view
-                    textInput.parentNode.removeChild(textInput);
-
-                    // Updates the view with the new name
-                    document.getElementById("list-card-text-" + id).append(ev.target.value)
-                    
-                }
-            }
-
-            textInput.onblur = (ev) => {
-                this.model.restoreList();
-            }
-
+            this.model.editListName(id);
         }
-
-        // TODO FOR HOVERING OVER THE LISTS
+        
+        // FOR HOVERING OVER THE LISTS
         document.getElementById("top5-list-" + id).onmouseover = (event) => {
             this.model.setHoverList(id);
         }
 
-        // TODO  FOR UNHOVERING OVER THE LISTS
+        // FOR UNHOVERING OVER THE LISTS
         document.getElementById("top5-list-" + id).onmouseout = (event) => {
             this.model.resetHoverList(id);
         }
@@ -163,7 +132,7 @@ export default class Top5Controller {
         }
     }
 
-    // TODO register the container, "edit-items" as a dropbox
+    // Registers the container, "edit-items" as a dropbox
     registerDropBoxHandlers() {
 
         // TODO handles dropping of list item
@@ -183,6 +152,39 @@ export default class Top5Controller {
         document.getElementById("edit-items").ondragover = (event) => {
             event.preventDefault();
         }
+
+    }
+
+    // Registers handlers for the text-input field with given id
+    registerListNameEditField(inputId, listId) {
+        let textInput = document.getElementById(inputId);
+
+        textInput.ondblclick = (ev) => {
+            this.ignoreParentClick(ev);
+        }
+
+        textInput.onkeydown = (ev) => {
+            if (ev.key === "Enter") {
+                // Saves the new name of the list to our model
+                this.model.getList(this.model.getListIndex(listId)).setName(ev.target.value);
+                this.model.saveLists();
+
+                // Removes text input element from the view
+                textInput.parentNode.removeChild(textInput);
+
+                // Updates the view with the new name
+                document.getElementById("list-card-text-" + listId).append(ev.target.value)
+                this.model.stopEditing();
+
+            }
+        }
+
+        textInput.onblur = (ev) => {
+            this.model.loadLists();
+        }
+    }
+
+    registerListItemEditField(inputId, listId) {
 
     }
 

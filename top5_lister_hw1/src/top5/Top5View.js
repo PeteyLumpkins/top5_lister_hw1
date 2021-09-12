@@ -61,10 +61,22 @@ export default class Top5View {
 
     }
 
-    /**
-     * 
-     * @param {*} list 
-     */
+    // Adds text field to input new list name
+    appendListNameInput(listId, textValue) {
+        let textInput = document.createElement("input");
+        textInput.type = "text";
+        textInput.classList = ["title-input"];
+
+        textInput.id = "list-text-input-" + listId;
+        textInput.value = textValue;
+
+        document.getElementById("list-card-text-" + listId).innerHTML = "";
+        document.getElementById("list-card-text-" + listId).appendChild(textInput);
+
+        // Setup handlers for this input thingy
+        this.controller.registerListNameEditField(textInput.id, listId);
+    }
+
     update(list) {
         let items = document.getElementById("edit-items").children;
 
@@ -171,6 +183,13 @@ export default class Top5View {
             this.enableButton("close-button");
         } else {
             this.disableButton("close-button");
+        }
+
+        // Enable/Disable add list button
+        if (model.hasCurrentList()) {
+            this.disableButton("add-list-button");
+        } else {
+            this.enableButton("add-list-button");
         }
     }
 }

@@ -26,6 +26,9 @@ export default class Top5Model {
         // THIS IS THE LIST CURRENTLY BEING EDITED
         this.currentList = null;
 
+        // THIS IS WHETHER THE USER IS EDITING THE MODEL OR NOT
+        this.editing = false;
+
         // THIS IS THE LIST BEING HOVERED OVER
         this.hoveringList = null;
 
@@ -110,13 +113,27 @@ export default class Top5Model {
         return this.currentList !== null;
     }
 
-    // TODO highlighting element that we are hovering over
+    // Starts editing the name of a top5list 
+    editListName(listId) {
+        if (!this.editing) {
+            this.view.appendListNameInput(listId, this.getList(listId).getName());
+            this.editing = true;
+        }
+    }
+
+    // Starts editing the name of an item in the current list
+    editItemName() {}
+
+    // Sets editing to false -> indicates that we can edit something else in the model
+    stopEditing() { this.editing = false; }
+
+    // Sets the list being hovered over and highlights the list in the view
     setHoverList(id) {
         this.hoveringList = this.getList(this.getListIndex(id));
         this.view.mouseOverHighlight(id);
     }
 
-    // TODO unhighlighting element when we move out of it
+    // Resets hoveringList and clears hovering highlight in the view
     resetHoverList(id) {
         this.hoveringList = null;
         this.view.mouseOverUnHighlight(id);
@@ -185,6 +202,7 @@ export default class Top5Model {
         this.view.update(this.currentList);
     }
 
+    // Everything below here is basically for handling undo and redo operations
     addChangeItemTransaction = (id, newText) => {
         // GET THE CURRENT TEXT
         let oldText = this.currentList.items[id];
