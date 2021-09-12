@@ -90,6 +90,13 @@ export default class Top5Model {
         return newList;
     }
 
+    // Deletes list at given index from Top5Lists
+    deleteList(listIndex) {
+        this.top5Lists.splice(listIndex, 1);
+        this.view.refreshLists(this.top5Lists);
+        this.view.clearWorkspace();
+    }
+
     // FIXME modified this a little bit, might not work right...
     sortLists() {
         this.top5Lists.sort((listA, listB) => {
@@ -140,10 +147,12 @@ export default class Top5Model {
     }
 
     unselectAll() {
-        for (let i = 0; i < this.top5Lists.length; i++) {
-            let list = this.top5Lists[i];
-            this.view.unhighlightList(i);
-        }
+        // FIXME List id numbers won't always match up with index in top5 list
+        // Needed to change to forEach -> get id of each element instead
+        
+        this.top5Lists.forEach((element) => {
+            this.view.unhighlightList(element.getId());
+        });
     }
 
     // FIXME There is something wrong with the highlighting going on with selected list

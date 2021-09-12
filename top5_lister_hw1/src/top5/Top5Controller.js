@@ -93,6 +93,13 @@ export default class Top5Controller {
         this.registerDropBoxHandlers();
     }
 
+    registerCursorStyle(id, style) {
+        let elem = document.getElementById(id);
+        elem.onmouseover = (event) => {
+            elem.style.cursor = style;
+        }
+    }
+
     registerListSelectHandlers(id) {
 
         // FOR SELECTING THE LIST
@@ -124,11 +131,26 @@ export default class Top5Controller {
             // VERIFY THAT THE USER REALLY WANTS TO DELETE THE LIST
             let modal = document.getElementById("delete-modal");
             this.listToDeleteIndex = id;
-            let listName = this.model.getList(id).getName();
+
+            // FIXME make sure to get index of list first, then call get list
+            
+            let listName = this.model.getList(this.model.getListIndex(id)).getName();
             let deleteSpan = document.getElementById("delete-list-span");
             deleteSpan.innerHTML = "";
             deleteSpan.appendChild(document.createTextNode(listName));
             modal.classList.add("is-visible");
+
+            document.getElementById("dialog-confirm-button").onmousedown = (event) => {
+                
+                // Clear the delete box
+                let modal = document.getElementById("delete-modal");
+                modal.classList.remove("is-visible");
+
+                // Delete the list
+                this.model.deleteList(this.model.getListIndex(id));
+                this.model.saveLists();
+
+            }
         }
     }
 
@@ -180,7 +202,7 @@ export default class Top5Controller {
         }
 
         textInput.onblur = (ev) => {
-            this.model.loadLists();
+            this.ignoreParentClick(ev);
         }
     }
 
