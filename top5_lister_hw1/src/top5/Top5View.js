@@ -153,21 +153,21 @@ export default class Top5View {
         let tps = model.tps;
 
         // Enable/Disable undo button
-        if (!tps.hasTransactionToUndo()) {
-            this.disableButton("undo-button");
-        } else {
+        if (tps.hasTransactionToUndo() && model.hasCurrentList()) {
             this.enableButton("undo-button");
+        } else {
+            this.disableButton("undo-button");
         }
         
         // Enable/Disable redo button
-        if (!tps.hasTransactionToRedo()) {
-            this.disableButton("redo-button");
-        } else {
+        if (tps.hasTransactionToRedo() && model.hasCurrentList()) {
             this.enableButton("redo-button");
+        } else {
+            this.disableButton("redo-button");
         }
 
         // Enable/Disable close list button
-        if (model.hasCurrentList()) {
+        if (model.hasCurrentList() && model.hasCurrentList()) {
             this.enableButton("close-button");
         } else {
             this.disableButton("close-button");

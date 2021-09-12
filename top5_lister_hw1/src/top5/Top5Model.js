@@ -26,6 +26,9 @@ export default class Top5Model {
         // THIS IS THE LIST CURRENTLY BEING EDITED
         this.currentList = null;
 
+        // THIS IS THE LIST BEING HOVERED OVER
+        this.hoveringList = null;
+
         // THIS WILL MANAGE OUR TRANSACTIONS
         this.tps = new jsTPS();
 
@@ -33,14 +36,17 @@ export default class Top5Model {
         this.nextListId = 0;
     }
 
+    // Returns the list at the given index
     getList(index) {
         return this.top5Lists[index];
     }
 
+    // Returns the current list being edited
     getCurrentList() {
         return this.currentList;
     }
 
+    // Gets the index of a Top5List by it's ID
     getListIndex(id) {
         for (let i = 0; i < this.top5Lists.length; i++) {
             let list = this.top5Lists[i];
@@ -51,6 +57,7 @@ export default class Top5Model {
         return -1;
     }
 
+    // Closes the current list
     closeList() {
         // Set current list to null, unselected highlighted lists
         this.currentList = null;
@@ -62,10 +69,12 @@ export default class Top5Model {
         this.view.updateToolbarButtons(this);
     }
 
+    // Initializes the model view
     setView(initView) {
         this.view = initView;
     }
 
+    // Adds a new Top5List to the model
     addNewList(initName, initItems) {
         let newList = new Top5List(this.nextListId++);
         if (initName)
@@ -78,7 +87,7 @@ export default class Top5Model {
         return newList;
     }
 
-    // TODO modified this a little bit, might not work right...
+    // FIXME modified this a little bit, might not work right...
     sortLists() {
         this.top5Lists.sort((listA, listB) => {
             let aName = listA.getName().replace(" ", "").toLowerCase(); 
@@ -102,12 +111,14 @@ export default class Top5Model {
     }
 
     // TODO highlighting element that we are hovering over
-    selectHoverList(id) {
+    setHoverList(id) {
+        this.hoveringList = this.getList(this.getListIndex(id));
         this.view.mouseOverHighlight(id);
     }
 
     // TODO unhighlighting element when we move out of it
-    unselectHoverList(id) {
+    resetHoverList(id) {
+        this.hoveringList = null;
         this.view.mouseOverUnHighlight(id);
     }
 

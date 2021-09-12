@@ -141,12 +141,12 @@ export default class Top5Controller {
 
         // TODO FOR HOVERING OVER THE LISTS
         document.getElementById("top5-list-" + id).onmouseover = (event) => {
-            this.model.selectHoverList(id);
+            this.model.setHoverList(id);
         }
 
         // TODO  FOR UNHOVERING OVER THE LISTS
         document.getElementById("top5-list-" + id).onmouseout = (event) => {
-            this.model.unselectHoverList(id);
+            this.model.resetHoverList(id);
         }
 
         // FOR DELETING THE LIST
