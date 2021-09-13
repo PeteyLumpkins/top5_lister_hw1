@@ -133,7 +133,7 @@ export default class Top5Controller {
             this.listToDeleteIndex = id;
 
             // FIXME make sure to get index of list first, then call get list
-            
+
             let listName = this.model.getList(this.model.getListIndex(id)).getName();
             let deleteSpan = document.getElementById("delete-list-span");
             deleteSpan.innerHTML = "";
@@ -141,7 +141,6 @@ export default class Top5Controller {
             modal.classList.add("is-visible");
 
             document.getElementById("dialog-confirm-button").onmousedown = (event) => {
-                
                 // Clear the delete box
                 let modal = document.getElementById("delete-modal");
                 modal.classList.remove("is-visible");
@@ -149,7 +148,14 @@ export default class Top5Controller {
                 // Delete the list
                 this.model.deleteList(this.model.getListIndex(id));
                 this.model.saveLists();
+            }
 
+            document.getElementById("dialog-cancel-button").onmousedown = (event) => {
+                // Clear the delete box
+                let modal = document.getElementById("delete-modal");
+                modal.classList.remove("is-visible");
+
+                // Don't do anythng else
             }
         }
     }
@@ -189,13 +195,21 @@ export default class Top5Controller {
             if (ev.key === "Enter") {
                 // Saves the new name of the list to our model
                 this.model.getList(this.model.getListIndex(listId)).setName(ev.target.value);
+                // Resort our top5lists
+                this.model.sortLists();
+
+                this.model.loadList(this.model.getCurrentList().getId());
+                
+                // TODO highlight selected list
+
+                // Save the lists
                 this.model.saveLists();
 
                 // Removes text input element from the view
                 textInput.parentNode.removeChild(textInput);
 
                 // Updates the view with the new name
-                document.getElementById("list-card-text-" + listId).append(ev.target.value)
+                // document.getElementById("list-card-text-" + listId).append(ev.target.value)
                 this.model.stopEditing();
 
             }

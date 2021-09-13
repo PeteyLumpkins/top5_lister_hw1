@@ -92,9 +92,16 @@ export default class Top5Model {
 
     // Deletes list at given index from Top5Lists
     deleteList(listIndex) {
+        // If we are deleting the current list, need to set current list to null
+        if (this.currentList.getId() === this.getList(listIndex).getId()) {
+            this.currentList = null;
+        }
+
+        // Delete the list
         this.top5Lists.splice(listIndex, 1);
         this.view.refreshLists(this.top5Lists);
         this.view.clearWorkspace();
+        this.view.updateToolbarButtons(this);
     }
 
     // FIXME modified this a little bit, might not work right...
@@ -123,7 +130,7 @@ export default class Top5Model {
     // Starts editing the name of a top5list 
     editListName(listId) {
         if (!this.editing) {
-            this.view.appendListNameInput(listId, this.getList(listId).getName());
+            this.view.appendListNameInput(listId, this.getList(this.getListIndex(listId)).getName());
             this.editing = true;
         }
     }
@@ -133,6 +140,9 @@ export default class Top5Model {
 
     // Sets editing to false -> indicates that we can edit something else in the model
     stopEditing() { this.editing = false; }
+
+    // Checks if we are editing a text field 
+    isEditing() { return this.editing; }
 
     // Sets the list being hovered over and highlights the list in the view
     setHoverList(id) {
@@ -149,13 +159,12 @@ export default class Top5Model {
     unselectAll() {
         // FIXME List id numbers won't always match up with index in top5 list
         // Needed to change to forEach -> get id of each element instead
-        
+
         this.top5Lists.forEach((element) => {
             this.view.unhighlightList(element.getId());
         });
     }
 
-    // FIXME There is something wrong with the highlighting going on with selected list
     loadList(id) {
         let list = null;
         let found = false;
@@ -166,7 +175,7 @@ export default class Top5Model {
                 // THIS IS THE LIST TO LOAD
                 this.currentList = list;
                 this.view.update(this.currentList);
-                this.view.highlightList(id); // FIXME bug -> was "i" should have been "id"
+                this.view.highlightList(id); // bug -> was "i" should have been "id"
 
                 this.view.updateStatusBarText(this.currentList.getName());
 
@@ -230,7 +239,7 @@ export default class Top5Model {
         this.view.updateToolbarButtons(this);
     }
 
-    // TODO moves the list items of the current list and updates the view
+    // Moves the list items of the current list and updates the view
     moveItem(oldIndex, newIndex) {
         this.currentList.moveItem(oldIndex, newIndex);
 

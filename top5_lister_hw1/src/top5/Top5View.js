@@ -116,25 +116,25 @@ export default class Top5View {
         this.controller.registerCursorStyle(id, "pointer");
     }
 
-    // TODO enable drag
+    // Enable drag
     enableDrag(id) {
         let item = document.getElementById(id);
         item.draggable = true;
     }
 
-    // TODO disable drag
+    // Disable drag
     disableDrag(id) {
         let item = document.getElementById(id);
         item.draggable = false;
     }
 
-    // TODO List mouse over highlighting
+    // List mouse over highlighting
     mouseOverHighlight(listId) {
         let listCard = document.getElementById("top5-list-" + listId);
         listCard.classList.add("hovering-list-card");
     }
 
-    // TODO List mouse over unhighlight
+    // List mouse over unhighlight
     mouseOverUnHighlight(listId) {
         let listCard = document.getElementById("top5-list-" + listId);
         listCard.classList.remove("hovering-list-card");
@@ -147,7 +147,7 @@ export default class Top5View {
         listCard.classList.add("selected-list-card");
     }
 
-    // FIXME appending will just cause titles to stack up - need to clear, then add
+    // Appending will just cause titles to stack up - need to clear, then add
     updateStatusBarText(listName) {
         let statusBar = document.getElementById("top5-statusbar");
         // First we clear the status bar
