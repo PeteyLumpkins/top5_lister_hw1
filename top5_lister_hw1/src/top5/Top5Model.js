@@ -93,7 +93,7 @@ export default class Top5Model {
     // Deletes list at given index from Top5Lists
     deleteList(listIndex) {
         // If we are deleting the current list, need to set current list to null
-        if (this.currentList.getId() === this.getList(listIndex).getId()) {
+        if (this.currentList !== null && this.currentList.getId() === this.getList(listIndex).getId()) {
             this.currentList = null;
         }
 

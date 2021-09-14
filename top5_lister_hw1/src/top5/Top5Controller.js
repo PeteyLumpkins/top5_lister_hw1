@@ -71,6 +71,7 @@ export default class Top5Controller {
                         }
                         item.draggable = true;
                     }
+
                     textInput.onblur = (event) => {
                         this.model.restoreList();
                         item.draggable = true;
@@ -81,9 +82,18 @@ export default class Top5Controller {
 
             // TODO FOR DRAGGING ITEMS
             item.ondragstart = (event) => {
+                
+                let elements = document.getElementById("edit-items").children
+                let oldIndex = 0;
 
+                while (elements[oldIndex].id !== event.target.id) {
+                    oldIndex += 1;
+                }
+
+                event.dataTransfer.setData("oldIndex", oldIndex);
+                
                 // Transfer the text content of the item we're dragging
-                event.dataTransfer.setData("oldIndex", this.model.getCurrentList().getItemIndex(event.target.textContent));
+                // event.dataTransfer.setData("oldIndex", this.model.getCurrentList().getItemIndex(event.target.textContent));
                 
             }
 
@@ -169,10 +179,20 @@ export default class Top5Controller {
 
             if (event.target.parentNode.id === "edit-items") {
                 let oldIndex = event.dataTransfer.getData("oldIndex");
-                let newIndex = this.model.getCurrentList().getItemIndex(event.target.textContent);
+
+                let elements = document.getElementById("edit-items").children
+                let newIndex = 0;
+
+                while (elements[newIndex].id !== event.target.id) {
+                    newIndex += 1;
+                }
+            
+                this.model.addMoveItemTransaction(oldIndex, newIndex);
+
+                // this.model.getCurrentList().getItemIndex(event.target.textContent);
 
                 // Adding transaction also performs the transaction
-                this.model.addMoveItemTransaction(oldIndex, newIndex);
+                // this.model.addMoveItemTransaction(oldIndex, newIndex);
             }
         }
 
@@ -199,8 +219,6 @@ export default class Top5Controller {
                 this.model.sortLists();
 
                 this.model.loadList(this.model.getCurrentList().getId());
-                
-                // TODO highlight selected list
 
                 // Save the lists
                 this.model.saveLists();
@@ -211,7 +229,6 @@ export default class Top5Controller {
                 // Updates the view with the new name
                 // document.getElementById("list-card-text-" + listId).append(ev.target.value)
                 this.model.stopEditing();
-
             }
         }
 
