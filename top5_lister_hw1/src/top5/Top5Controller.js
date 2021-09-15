@@ -26,6 +26,8 @@ export default class Top5Controller {
             }
         }
 
+        // HANDLES SAVING A LIST ON CLICKING OFF THE LIST EDITER
+
         document.getElementById("undo-button").onmousedown = (event) => {
             this.model.undo();
         }
@@ -207,6 +209,28 @@ export default class Top5Controller {
     registerListNameEditField(inputId, listId) {
         let textInput = document.getElementById(inputId);
 
+        document.body.onclick = (ev) => {
+            if (this.model.isEditing() && ev.target.id !== inputId) {
+                // Saves the new name of the list to our model
+                this.model.getList(this.model.getListIndex(listId)).setName(textInput.value);
+                
+                // Resort our top5lists
+                this.model.sortLists();
+
+                this.model.loadList(this.model.getCurrentList().getId());
+
+                // Save the lists
+                this.model.saveLists();
+
+                // Removes text input element from the view
+                textInput.parentNode.removeChild(textInput);
+
+                // Updates the view with the new name
+                // document.getElementById("list-card-text-" + listId).append(ev.target.value)
+                this.model.stopEditing();
+            }
+        }
+
         textInput.ondblclick = (ev) => {
             this.ignoreParentClick(ev);
         }
@@ -215,6 +239,7 @@ export default class Top5Controller {
             if (ev.key === "Enter") {
                 // Saves the new name of the list to our model
                 this.model.getList(this.model.getListIndex(listId)).setName(ev.target.value);
+
                 // Resort our top5lists
                 this.model.sortLists();
 

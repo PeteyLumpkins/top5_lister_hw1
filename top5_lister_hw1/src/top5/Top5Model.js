@@ -69,6 +69,9 @@ export default class Top5Model {
         // Clear workspace and update toolbars, need to disable
         // close button after clearing workspace
         this.view.clearWorkspace();
+
+        // Also need to clear the status bar after closing
+        this.view.updateStatusBarText("");
         this.view.updateToolbarButtons(this);
     }
 
@@ -177,7 +180,7 @@ export default class Top5Model {
                 this.view.update(this.currentList);
                 this.view.highlightList(id); // bug -> was "i" should have been "id"
 
-                this.view.updateStatusBarText(this.currentList.getName());
+                this.view.updateStatusBarText("Top 5 " + this.currentList.getName());
 
                 found = true;
             }

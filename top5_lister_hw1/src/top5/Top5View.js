@@ -148,12 +148,12 @@ export default class Top5View {
     }
 
     // Appending will just cause titles to stack up - need to clear, then add
-    updateStatusBarText(listName) {
+    updateStatusBarText(text) {
         let statusBar = document.getElementById("top5-statusbar");
         // First we clear the status bar
         statusBar.innerHTML = "";
         // Then we add the new title to the status status bar
-        statusBar.append("Top 5 " + listName);
+        statusBar.append(text);
     }
 
     unhighlightList(listId) {
