@@ -19,6 +19,7 @@ export class Top5ListerApp {
         // FIXME REMEMBER TO GET RID OF THIS NUMBNUTS
         // localStorage.clear();
 
+
         this.model = new Top5Model();
         this.view = new Top5View();
         this.controller = new Top5Controller();

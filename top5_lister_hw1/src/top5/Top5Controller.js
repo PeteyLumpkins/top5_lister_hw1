@@ -147,7 +147,11 @@ export default class Top5Controller {
 
                 textInput.onkeydown = (event) => {
                     if (event.key === 'Enter') {
-                        this.model.addChangeItemTransaction(idNum-1, event.target.value);
+                        let itemName = event.target.value;
+                        if (itemName === "") {
+                            itemName = "?";
+                        }
+                        this.model.addChangeItemTransaction(idNum-1, itemName);
                     }
                     item.draggable = true;
                 }
@@ -269,7 +273,13 @@ export default class Top5Controller {
         document.body.onclick = (ev) => {
             if (this.model.isEditing() && ev.target.id !== inputId) {
                 // Saves the new name of the list to our model
-                this.model.getList(this.model.getListIndex(listId)).setName(textInput.value);
+                let name = textInput.value;
+
+                if (name === "") {
+                    name = "Untitled";
+                }
+
+                this.model.getList(this.model.getListIndex(listId)).setName(name);
                 
                 // Resort our top5lists
                 this.model.sortLists();
@@ -295,7 +305,13 @@ export default class Top5Controller {
         textInput.onkeydown = (ev) => {
             if (ev.key === "Enter") {
                 // Saves the new name of the list to our model
-                this.model.getList(this.model.getListIndex(listId)).setName(ev.target.value);
+                let name = textInput.value;
+
+                if (name === "") {
+                    name = "Untitled";
+                }
+
+                this.model.getList(this.model.getListIndex(listId)).setName(name);
 
                 // Resort our top5lists
                 this.model.sortLists();
