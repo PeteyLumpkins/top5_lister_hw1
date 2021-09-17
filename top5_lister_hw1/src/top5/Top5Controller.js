@@ -34,7 +34,7 @@ export default class Top5Controller {
 
         // SETS UP ITEM HANDLERS
         for (let i = 1; i <= 5; i++) {
-            this.initListItem("item-" + i);
+            this.initListItem(i);
         }
 
         // SETS UP DROPBOX HANDLERS
@@ -121,8 +121,8 @@ export default class Top5Controller {
     }
 
     // Sets up controls for the list items
-    initListItem(id) {
-        let item = document.getElementById(id);
+    initListItem(idNum) {
+        let item = document.getElementById("item-" + idNum);
 
         item.ondblclick = (ev) => {
             if (this.model.hasCurrentList()) {
@@ -135,8 +135,8 @@ export default class Top5Controller {
                 // ADD A TEXT FIELD
                 let textInput = document.createElement("input");
                 textInput.setAttribute("type", "text");
-                textInput.setAttribute("id", "item-text-input-" + i);
-                textInput.setAttribute("value", this.model.currentList.getItemAt(i-1));
+                textInput.setAttribute("id", "item-text-input-" + idNum);
+                textInput.setAttribute("value", this.model.currentList.getItemAt(idNum-1));
 
                 item.appendChild(textInput);
 
@@ -147,7 +147,7 @@ export default class Top5Controller {
 
                 textInput.onkeydown = (event) => {
                     if (event.key === 'Enter') {
-                        this.model.addChangeItemTransaction(i-1, event.target.value);
+                        this.model.addChangeItemTransaction(idNum-1, event.target.value);
                     }
                     item.draggable = true;
                 }
