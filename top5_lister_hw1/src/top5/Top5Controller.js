@@ -16,28 +16,29 @@ export default class Top5Controller {
         this.initHandlers();
     }
 
+    // Initializes event handlers for buttons and drag/drop 
     initHandlers() {
         // SETUP THE TOOLBAR BUTTON HANDLERS
 
-        // Sets up add list button handlers
+        // SETS UP LIST BUTTON HANDLERS
         this.initAddListButton();
 
-        // Sets up close button handlers
+        // SETS UP CLOSE BUTTON HANDLERS
         this.initCloseButton();
 
-        // Sets up undo button handlers
+        // SETS UP UNDO BUTTON HANDLERS
         this.initUndoButton();
 
-        // Sets up redo button handlers
+        // SETS UP REDO BUTTON HANDLERS
         this.initRedoButton();
 
-        // SETUP THE ITEM HANDLERS
+        // SETS UP ITEM HANDLERS
         for (let i = 1; i <= 5; i++) {
             this.initListItem("item-" + i);
         }
 
-        // TODO Sets up drop box handlers here too
-        this.registerDropBoxHandlers();
+        // SETS UP DROPBOX HANDLERS
+        this.initDropBoxHandlers();
     }
 
     // Sets up controls for add list button
@@ -173,11 +174,32 @@ export default class Top5Controller {
         }
     }
 
-    registerCursorStyle(id, style) {
-        let elem = document.getElementById(id);
-        elem.onmouseover = (event) => {
-            elem.style.cursor = style;
+    // Sets up controls for drop box
+    initDropBoxHandlers() {
+
+        // Handles dropping of list item
+        document.getElementById("edit-items").ondrop = (event) => {
+            event.preventDefault();
+
+            if (event.target.parentNode.id === "edit-items") {
+                let oldIndex = event.dataTransfer.getData("oldIndex");
+
+                let elements = document.getElementById("edit-items").children
+                let newIndex = 0;
+
+                while (elements[newIndex].id !== event.target.id) {
+                    newIndex += 1;
+                }
+            
+                this.model.addMoveItemTransaction(oldIndex, newIndex);
+            }
         }
+
+        // Prevents drag action from being stopped I think
+        document.getElementById("edit-items").ondragover = (event) => {
+            event.preventDefault();
+        }
+
     }
 
     registerListSelectHandlers(id) {
@@ -240,39 +262,6 @@ export default class Top5Controller {
         }
     }
 
-    // Registers the container, "edit-items" as a dropbox
-    registerDropBoxHandlers() {
-
-        // TODO handles dropping of list item
-        document.getElementById("edit-items").ondrop = (event) => {
-            event.preventDefault();
-
-            if (event.target.parentNode.id === "edit-items") {
-                let oldIndex = event.dataTransfer.getData("oldIndex");
-
-                let elements = document.getElementById("edit-items").children
-                let newIndex = 0;
-
-                while (elements[newIndex].id !== event.target.id) {
-                    newIndex += 1;
-                }
-            
-                this.model.addMoveItemTransaction(oldIndex, newIndex);
-
-                // this.model.getCurrentList().getItemIndex(event.target.textContent);
-
-                // Adding transaction also performs the transaction
-                // this.model.addMoveItemTransaction(oldIndex, newIndex);
-            }
-        }
-
-        // TODO Prevents drag action from being stopped I think
-        document.getElementById("edit-items").ondragover = (event) => {
-            event.preventDefault();
-        }
-
-    }
-
     // Registers handlers for the text-input field with given id
     registerListNameEditField(inputId, listId) {
         let textInput = document.getElementById(inputId);
@@ -328,10 +317,6 @@ export default class Top5Controller {
         textInput.onblur = (ev) => {
             this.ignoreParentClick(ev);
         }
-    }
-
-    registerListItemEditField(inputId, listId) {
-
     }
 
     ignoreParentClick(event) {
