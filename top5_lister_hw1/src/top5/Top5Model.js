@@ -95,16 +95,28 @@ export default class Top5Model {
 
     // Deletes list at given index from Top5Lists
     deleteList(listIndex) {
-        // If we are deleting the current list, need to set current list to null
+        // If we are deleting the current list...
         if (this.currentList !== null && this.currentList.getId() === this.getList(listIndex).getId()) {
+            // Set current list in model to null
             this.currentList = null;
+            // Clear the workspace in the view
+            this.view.clearWorkspace();
+            // Clear the text in the status bar
+            this.view.updateStatusBarText("");
         }
 
-        // Delete the list
+        // Delete the list from the top5lists
         this.top5Lists.splice(listIndex, 1);
+        // Refresh the lists in the view
         this.view.refreshLists(this.top5Lists);
-        this.view.clearWorkspace();
+        // Update our toolbar in the view and buttons
         this.view.updateToolbarButtons(this);
+
+        // If we didn't delete the current list, we need to rehighlight it,
+        // refreshing the lists will unhighlight it
+        if (this.currentList !== null) {
+            this.view.highlightList(this.currentList.getId());
+        }
     }
 
     // FIXME modified this a little bit, might not work right...

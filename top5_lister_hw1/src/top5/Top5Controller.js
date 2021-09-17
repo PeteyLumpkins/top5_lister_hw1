@@ -18,28 +18,18 @@ export default class Top5Controller {
 
     initHandlers() {
         // SETUP THE TOOLBAR BUTTON HANDLERS
-        document.getElementById("add-list-button").onmousedown = (event) => {
-            if (!this.model.hasCurrentList()) {
-                let newList = this.model.addNewList("Untitled", ["?","?","?","?","?"]);            
-                this.model.loadList(newList.id);
-                this.model.saveLists();
-            }
-        }
 
-        // HANDLES SAVING A LIST ON CLICKING OFF THE LIST EDITER
+        // Sets up add list button handlers
+        this.initAddListButton();
 
-        document.getElementById("undo-button").onmousedown = (event) => {
-            this.model.undo();
-        }
+        // Sets up close button handlers
+        this.initCloseButton();
 
-        // SETUP REDO BUTTON
-        document.getElementById("redo-button").onmousedown = (event) => {
-            this.model.redo();
-        }
+        // Sets up undo button handlers
+        this.initUndoButton();
 
-        document.getElementById("close-button").onmousedown = (event) => {
-            this.model.closeList();
-        }
+        // Sets up redo button handlers
+        this.initRedoButton();
 
         // SETUP THE ITEM HANDLERS
         for (let i = 1; i <= 5; i++) {
@@ -103,6 +93,85 @@ export default class Top5Controller {
 
         // TODO Sets up drop box handlers here too
         this.registerDropBoxHandlers();
+    }
+
+    // Sets up controls for add list button
+    initAddListButton() {
+        let button = document.getElementById("add-list-button");
+
+        // Clicking add list creates and adds new list to the view
+        button.onmousedown = (event) => {
+            if (!this.model.hasCurrentList()) {
+                let newList = this.model.addNewList("Untitled", ["?","?","?","?","?"]);            
+                this.model.loadList(newList.id);
+                this.model.saveLists();
+            }
+        }
+
+        // While hovering
+        button.onmouseover = (event) => {
+            if (!button.classList.contains("disabled")) {
+                button.style.cursor = "pointer";
+            }
+        }
+
+        button.onmouseout = (event) => {
+            button.style.cursor = "default";
+        }
+    }
+
+    // Sets up controls for close list button
+    initCloseButton() {
+        let button = document.getElementById("close-button")
+
+        // Close the list, change cursor style back to default
+        button.onmousedown = (event) => {
+            this.model.closeList();
+            button.style.cursor = "default";
+        }
+
+        // Change style to pointer while hovering and button enabled
+        button.onmouseover = (event) => {
+            if (!button.classList.contains("disabled")) {
+                button.style.cursor = "pointer";
+            }
+        }
+    }
+
+    // Sets up controls for undo button
+    initUndoButton() {
+        let button = document.getElementById("undo-button");
+
+        button.onmousedown = (event) => {
+            this.model.undo();
+            if (button.classList.contains("disabled")) {
+                button.style.cursor = "default";
+            }
+        }
+
+        button.onmouseover = (event) => {
+            if (!button.classList.contains("disabled")) {
+                button.style.cursor = "pointer";
+            }
+        }
+    }
+
+    // Sets up controls for redo button
+    initRedoButton() {
+        let button = document.getElementById("redo-button")
+        
+        button.onmousedown = (event) => {
+            this.model.redo();
+            if (button.classList.contains("disabled")) {
+                button.style.cursor = "default";
+            }
+        }
+
+        button.onmouseover = (event) => {
+            if(!button.classList.contains("disabled")) {
+                button.style.cursor = "pointer";
+            }
+        }
     }
 
     registerCursorStyle(id, style) {

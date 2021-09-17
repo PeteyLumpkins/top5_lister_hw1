@@ -107,13 +107,11 @@ export default class Top5View {
     disableButton(id) {
         let button = document.getElementById(id);
         button.classList.add("disabled");
-        this.controller.registerCursorStyle(id, "default");
     }
 
     enableButton(id) {
         let button = document.getElementById(id);
         button.classList.remove("disabled");
-        this.controller.registerCursorStyle(id, "pointer");
     }
 
     // Enable drag
@@ -181,7 +179,7 @@ export default class Top5View {
         }
 
         // Enable/Disable close list button
-        if (model.hasCurrentList() && model.hasCurrentList()) {
+        if (model.hasCurrentList()) {
             this.enableButton("close-button");
         } else {
             this.disableButton("close-button");
