@@ -33,62 +33,7 @@ export default class Top5Controller {
 
         // SETUP THE ITEM HANDLERS
         for (let i = 1; i <= 5; i++) {
-            let item = document.getElementById("item-" + i);
-
-            // AND FOR TEXT EDITING
-            item.ondblclick = (ev) => {
-                if (this.model.hasCurrentList()) {
-                    // CLEAR THE TEXT
-                    item.innerHTML = "";
-
-                    // TODO SET DRAGGABLE TO FALSE
-                    item.draggable = false;
-
-                    // ADD A TEXT FIELD
-                    let textInput = document.createElement("input");
-                    textInput.setAttribute("type", "text");
-                    textInput.setAttribute("id", "item-text-input-" + i);
-                    textInput.setAttribute("value", this.model.currentList.getItemAt(i-1));
-
-                    item.appendChild(textInput);
-
-                    textInput.ondblclick = (event) => {
-                        this.ignoreParentClick(event);
-                        item.draggable = true;
-                    }
-
-                    textInput.onkeydown = (event) => {
-                        if (event.key === 'Enter') {
-                            this.model.addChangeItemTransaction(i-1, event.target.value);
-                        }
-                        item.draggable = true;
-                    }
-
-                    textInput.onblur = (event) => {
-                        this.model.restoreList();
-                        item.draggable = true;
-                    }
-
-                }
-            }
-
-            // TODO FOR DRAGGING ITEMS
-            item.ondragstart = (event) => {
-                
-                let elements = document.getElementById("edit-items").children
-                let oldIndex = 0;
-
-                while (elements[oldIndex].id !== event.target.id) {
-                    oldIndex += 1;
-                }
-
-                event.dataTransfer.setData("oldIndex", oldIndex);
-                
-                // Transfer the text content of the item we're dragging
-                // event.dataTransfer.setData("oldIndex", this.model.getCurrentList().getItemIndex(event.target.textContent));
-                
-            }
-
+            this.initListItem("item-" + i);
         }
 
         // TODO Sets up drop box handlers here too
@@ -171,6 +116,60 @@ export default class Top5Controller {
             if(!button.classList.contains("disabled")) {
                 button.style.cursor = "pointer";
             }
+        }
+    }
+
+    // Sets up controls for the list items
+    initListItem(id) {
+        let item = document.getElementById(id);
+
+        item.ondblclick = (ev) => {
+            if (this.model.hasCurrentList()) {
+                // CLEAR THE TEXT
+                item.innerHTML = "";
+
+                // TODO SET DRAGGABLE TO FALSE
+                item.draggable = false;
+
+                // ADD A TEXT FIELD
+                let textInput = document.createElement("input");
+                textInput.setAttribute("type", "text");
+                textInput.setAttribute("id", "item-text-input-" + i);
+                textInput.setAttribute("value", this.model.currentList.getItemAt(i-1));
+
+                item.appendChild(textInput);
+
+                textInput.ondblclick = (event) => {
+                    this.ignoreParentClick(event);
+                    item.draggable = true;
+                }
+
+                textInput.onkeydown = (event) => {
+                    if (event.key === 'Enter') {
+                        this.model.addChangeItemTransaction(i-1, event.target.value);
+                    }
+                    item.draggable = true;
+                }
+
+                textInput.onblur = (event) => {
+                    this.model.restoreList();
+                    item.draggable = true;
+                }
+            }
+        }
+
+        item.ondragstart = (event) => {
+            let elements = document.getElementById("edit-items").children
+            let oldIndex = 0;
+
+            while (elements[oldIndex].id !== event.target.id) {
+                oldIndex += 1;
+            }
+
+            event.dataTransfer.setData("oldIndex", oldIndex);
+            
+            // Transfer the text content of the item we're dragging
+            // event.dataTransfer.setData("oldIndex", this.model.getCurrentList().getItemIndex(event.target.textContent));
         }
     }
 
