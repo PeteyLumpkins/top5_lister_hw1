@@ -77,6 +77,13 @@ export default class Top5View {
         this.controller.registerListNameEditField(textInput.id, listId);
     }
 
+    /**
+     * Updates the views workspace of list-items with the given list. The given list 
+     * should be the list as the models current list.
+     * 
+     * @param {*} list the list of items from the model we want to fill the list-items
+     * with.
+     */
     update(list) {
         let items = document.getElementById("edit-items").children;
 
@@ -93,6 +100,10 @@ export default class Top5View {
         }
     }
 
+    /**
+     * Removes the text for all of the list-items and disables dragging 
+     * for each of the list-item elements.
+     */
     clearWorkspace() {
         // REMOVE THE ITEMS
         for (let i = 0; i < 5; i++) {
@@ -104,40 +115,71 @@ export default class Top5View {
         }
     }
 
+    /**
+     * Disables the button with the given id
+     * 
+     * @param {*} id the id of the button to be disabled
+     */
     disableButton(id) {
         let button = document.getElementById(id);
         button.classList.add("disabled");
     }
 
+    /**
+     * Enables the button with the given id 
+     * 
+     * @param {*} id the id of the button to be enabled
+     */
     enableButton(id) {
         let button = document.getElementById(id);
         button.classList.remove("disabled");
     }
 
-    // Enable drag
+    /**
+     * Enables dragging for the list-item with the given id
+     * 
+     * @param {*} id the id of the list-item we want to enable dragging for
+     */
     enableDrag(id) {
         let item = document.getElementById(id);
         item.draggable = true;
     }
 
-    // Disable drag
+    /**
+     * Disables dragging for the list-item with the given id
+     * 
+     * @param {*} id the id of the list-item we want to disable dragging for
+     */
     disableDrag(id) {
         let item = document.getElementById(id);
         item.draggable = false;
     }
 
-    // List mouse over highlighting
+    /**
+     * Highlights the list we are hovering over
+     * 
+     * @param {*} listId the id of the list we want to highlight
+     */
     mouseOverHighlight(listId) {
         let listCard = document.getElementById("top5-list-" + listId);
         listCard.classList.add("hovering-list-card");
     }
 
-    // List mouse over unhighlight
+    /**
+     * Unhighlights the list name we were hovering over
+     * 
+     * @param {*} listId the id of the list we want to unhighlight
+     */
     mouseOverUnHighlight(listId) {
         let listCard = document.getElementById("top5-list-" + listId);
         listCard.classList.remove("hovering-list-card");
     }
 
+    /**
+     * Highlights the list as the selected list with the given id 
+     * 
+     * @param {*} listId the id of the list we want to highlight
+     */
     highlightList(listId) {
         // HIGHLIGHT THE LIST
         let listCard = document.getElementById("top5-list-" + listId);
@@ -145,7 +187,11 @@ export default class Top5View {
         listCard.classList.add("selected-list-card");
     }
 
-    // Appending will just cause titles to stack up - need to clear, then add
+    /**
+     * Updates the pinkish status bar with the given text 
+     * 
+     * @param {*} text the text we want to display in the status bar
+     */
     updateStatusBarText(text) {
         let statusBar = document.getElementById("top5-statusbar");
         // First we clear the status bar
@@ -154,6 +200,11 @@ export default class Top5View {
         statusBar.append(text);
     }
 
+    /**
+     * Unhighlights the list with the given id in the view
+     * 
+     * @param {*} listId the id of the list we want to unhighlight
+     */
     unhighlightList(listId) {
         // UNHIGHLIGHT THE LIST
         let listCard = document.getElementById("top5-list-" + listId);
@@ -161,6 +212,12 @@ export default class Top5View {
         listCard.classList.remove("selected-list-card");
     }
 
+    /**
+     * Updates all of the buttons in the toolbar, either enabling or 
+     * disabling them.
+     * 
+     * @param {*} model the model that the view represents
+     */
     updateToolbarButtons(model) {
         let tps = model.tps;
 
